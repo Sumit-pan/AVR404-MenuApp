@@ -60,6 +60,6 @@ public class InteractionController : Singleton<InteractionController>
     }
     private void Start()
     {
-        _EnableMode("Startup");
+        _EnableMode("Startup Mode");
     }
 }

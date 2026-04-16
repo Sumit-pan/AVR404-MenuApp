@@ -1,24 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
-public class ScanMode : MonoBehaviour
+public class ImageScanMode : MonoBehaviour
 {
+    [SerializeField] private ARTrackedImageManager imageManager;
 
-    [SerializeField]
-    ARPlaneManager planeManager;
-
-    // Start is called before the first frame update
-    void OnEnable()
+    private void OnEnable()
     {
+        // Show the Scan UI when this mode starts
         UIController.ShowUI("Scan");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (planeManager.trackables.count > 0)
-            InteractionController.EnableMode("Main");
+        if (imageManager == null) return;
+
+        foreach (var trackedImage in imageManager.trackables)
+        {
+            if (trackedImage.trackingState == TrackingState.Tracking)
+            {
+                InteractionController.EnableMode("Main");
+                return;
+            }
+        }
     }
 }
